@@ -16,20 +16,26 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "-spchar",
+    "--special",
+    "--spchar",
+    "--sc",
+    "--s",
     action="store_true",
     help="Include special characters."
 )
 
 parser.add_argument(
-    "-exclude",
+    "--exclude",
+    "--excl",
+    "--ex",
+    "--x",
     type=str,
     help="Exclude characters."
 )
 
 args = parser.parse_args()
 
-if args.spchar:
+if args.special:
     characters += "".join(special_characters)
 
 filtered_characters = []
