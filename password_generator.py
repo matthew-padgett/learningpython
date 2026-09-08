@@ -1,4 +1,3 @@
-import random
 import argparse
 import string
 import secrets
