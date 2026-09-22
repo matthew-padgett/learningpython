@@ -1,6 +1,4 @@
 import os
-from shutil import disk_usage
-
 import urllib3
 from dotenv import load_dotenv
 from proxmoxer import ProxmoxAPI
