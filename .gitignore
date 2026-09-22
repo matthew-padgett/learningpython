@@ -1,0 +1,9 @@
+# Ignore local secrets
+.env
+
+# Ignore virtual environments & cache
+.venv/
+__pycache__/
+
+# Ignore PyCharm IDE files
+.idea/
