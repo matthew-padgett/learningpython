@@ -3,7 +3,7 @@ from nhlpy import NHLClient
 from datetime import datetime, timedelta
 
 client = NHLClient(
-    debug=True,
+    debug=False,
     timeout=30,
     ssl_verify=True,
     follow_redirects=True
@@ -70,7 +70,7 @@ parser.add_argument(
 parser.add_argument(
     "--networks",
     action="store_true",
-    help="Fetch NHL games from a specific date."
+    help="Appends networks to game list for where to watch."
 )
 
 
