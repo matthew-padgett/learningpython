@@ -1,4 +1,6 @@
 import os
+from sys import exception
+
 import urllib3
 from dotenv import load_dotenv
 from proxmoxer import ProxmoxAPI
@@ -21,7 +23,7 @@ proxmox = ProxmoxAPI(
     user=PROXMOX_USER,
     token_name=TOKEN_NAME,
     token_value=TOKEN_VALUE,
-    verify_ssl=False
+    verify_ssl=False # I'm not using ssl certificates in my workflow atm
 )
 
 NODE = os.getenv("PROXMOX_NODE") # I am only using one node, so I put it as an env variable.
@@ -56,3 +58,26 @@ for vm in vms:
     memory_percent = (memory_usage / max_memory) * 100
 
     print(f"QEMU {vmid} ({name}): {cpu_percent:.1f}% CPU, {memory_percent:.1f}% RAM")
+
+PASSWORD = os.getenv("VM_PASSWORD")
+lxc_config = {
+    "vmid": 9004,
+    "tags": "dev",
+    "ostemplate": "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst",
+    "hostname": "Python-Automation-LXC",
+    "storage": "local-lvm",  # Storage pool for the root disk
+    "rootfs": "local-lvm:8",  # Size of the root disk (e.g., 8GB)
+    "memory": 1024,
+    "swap": 512,
+    "cores": 2,
+    "password": PASSWORD,
+    "net0": "name=eth0,bridge=vmbr0,ip=dhcp",
+    "ostype": "debian",
+    "unprivileged": 1,
+}
+
+try:
+    task = proxmox.nodes(NODE).lxc.create(**lxc_config)
+    print(f"TASK {task}: Task successful.")
+except Exception as exception:
+    print(f"ERROR {exception}: Failed to complete task.")
