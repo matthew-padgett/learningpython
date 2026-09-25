@@ -9,7 +9,7 @@ client = NHLClient(
     follow_redirects=True
 )
 
-def get_games(date=None):
+def get_games(date=None, show_broadcast=False):
     current_date = datetime.today().strftime("%Y-%m-%d")
     tomorrow_date = (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
 
@@ -40,8 +40,16 @@ def get_games(date=None):
         else:
             local_game_time = local_game_time
 
+        output =  f"{away_team} @ {home_team} {local_game_time}"
 
-        print(f"{away_team} @ {home_team} {local_game_time}")
+        if show_broadcast:
+            broadcast = game.get('tvBroadcasts', [])
+            networks = [b['network'] for b in broadcast if 'network' in b]
+            broadcasts = ", ".join(networks)
+            broadcast_list = f"on {broadcasts}" if networks else "No networks listed."
+            output += f"{broadcast_list}"
+
+        print(output)
 
 parser = argparse.ArgumentParser(
     description="NHL CLI"
@@ -59,11 +67,18 @@ parser.add_argument(
     help="Fetch NHL games from a specific date."
 )
 
+parser.add_argument(
+    "--networks",
+    action="store_true",
+    help="Fetch NHL games from a specific date."
+)
+
+
 args = parser.parse_args()
 
 if args.today == "TODAY_FLAG":
-    get_games()
+    get_games(show_broadcast=args.networks)
 elif args.date:
-    get_games(args.date)
+    get_games(args.date, show_broadcast=args.networks)
 else:
-    get_games()
+    get_games(show_broadcast=args.networks)
