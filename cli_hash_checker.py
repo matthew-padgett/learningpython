@@ -11,7 +11,7 @@ def get_file_hash():
 
 def get_input_hash():
 
-    input_hash = input("Enter in the SHA256 hash to compare with your file: ")
+    input_hash = input("Enter in the SHA256 hash to compare with your file: ").strip()
     return input_hash
 
 def check_hash():
