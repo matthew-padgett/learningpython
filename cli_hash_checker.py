@@ -3,9 +3,9 @@ import hashlib
 
 def get_file_hash():
 
-    file = input("Enter the file path: ").strip()
+    file_path = input("Enter the file path: ").strip()
 
-    with open(file, "rb") as file: # "rb" = Read binary.
+    with open(file_path, "rb") as file: # "rb" = Read binary.
         file_hash = hashlib.file_digest(file, "sha256").hexdigest()
         return file_hash
 
@@ -44,5 +44,5 @@ def print_result():
 def main():
     print_result()
 
-if __name__== "__main__":
+if __name__ == "__main__":
     main()
