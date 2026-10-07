@@ -3,7 +3,7 @@ from sys import exception
 
 import urllib3
 from dotenv import load_dotenv
-from proxmoxer import ProxmoxAPI
+from proxmoxer import ProxmoxAPI, ResourceException
 
 # Suppress self-signed certificate warnings (useful for homelab situations)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -28,6 +28,33 @@ proxmox = ProxmoxAPI(
 
 NODE = os.getenv("PROXMOX_NODE") # I am only using one node, so I put it as an env variable.
 
+"""
+vm_config = {
+    'vmid': 901,
+    'name': 'dev-proxmox-node',
+    'cores': 4,
+    'memory': 4096,                          # 4GB RAM
+    'cpu': 'host',                           # <--- Enables nested virtualization
+    'ostype': 'l26',                         # Linux kernel type
+    'scsihw': 'virtio-scsi-single',
+    'scsi0': 'local-lvm:32',
+    'net0': 'virtio,bridge=vmbr1',           # <--- Uses your isolated dev network bridge
+    'ide2': 'local:iso/proxmox-ve_9.2-1.iso,media=cdrom',
+    'boot': 'order=scsi0;ide2'               # Boot order
+}
+
+try:
+    print(f"Initiating creation of VM {vm_config['vmid']} ({vm_config['name']})...")
+    task = proxmox.nodes(NODE).qemu.create(**vm_config)
+    print(f"SUCCESS: Task started. UPID: {task}")
+
+except ResourceException as exception:
+    print(f"PROXMOX API ERROR: Failed to create VM. Details: {exception}")
+except Exception as exception:
+    print(f"UNEXPECTED ERROR: {exception}")
+"""
+
+"""
 containers = proxmox.nodes(NODE).lxc.get()
 
 for container in containers:
@@ -81,3 +108,4 @@ try:
     print(f"TASK {task}: Task successful.")
 except Exception as exception:
     print(f"ERROR {exception}: Failed to complete task.")
+"""
