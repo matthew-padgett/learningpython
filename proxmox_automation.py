@@ -28,6 +28,8 @@ proxmox = ProxmoxAPI(
 
 NODE = os.getenv("PROXMOX_NODE") # I am only using one node, so I put it as an env variable.
 
+
+# Removed these for now so I don't run the code accidentally.
 """
 vm_config = {
     'vmid': 901,
