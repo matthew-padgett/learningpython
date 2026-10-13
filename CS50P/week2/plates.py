@@ -5,7 +5,6 @@ def main():
     else:
         print("Invalid")
 
-
 def is_valid(plate):
     if check_count(plate):
         if check_special_characters(plate):
@@ -15,7 +14,6 @@ def is_valid(plate):
 
     else:
         print("False")
-
 
 def check_count(plate):
     if len(plate) < 2:
